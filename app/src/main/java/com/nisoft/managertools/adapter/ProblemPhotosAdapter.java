@@ -41,6 +41,7 @@ public class ProblemPhotosAdapter extends RecyclerView.Adapter<ProblemPhotosAdap
     }
     public ProblemPhotosAdapter(Context context,Fragment targetFragment,UUID uuid){
         mContext = context;
+        mUUID = uuid;
         mPhotosPath = ProblemRecodeFragment.getProblem().getPhotoPath();
         mTargetFragment = targetFragment;
     }

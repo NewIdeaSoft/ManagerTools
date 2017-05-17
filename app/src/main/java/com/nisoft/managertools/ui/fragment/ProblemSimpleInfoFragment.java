@@ -41,8 +41,7 @@ public class ProblemSimpleInfoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UUID uuid = (UUID) getArguments().getSerializable(ProblemTable.Cols.UUID);
-        mProblem = ProblemLab.getProblemLab(getActivity()).getProblem(uuid);
+        mProblem = ProblemRecodeFragment.getProblem();
     }
 
     @Nullable

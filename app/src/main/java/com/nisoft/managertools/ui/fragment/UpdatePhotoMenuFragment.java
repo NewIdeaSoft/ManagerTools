@@ -43,7 +43,6 @@ public class UpdatePhotoMenuFragment extends DialogFragment {
     public static String IMAGE_POSITION = "image_position";
 
     public static UpdatePhotoMenuFragment newInstance(UUID uuid,int position) {
-        Log.e("UUID:",uuid.toString());
         Bundle args = new Bundle();
         args.putSerializable(ProblemTable.Cols.UUID,uuid);
         args.putInt(IMAGE_POSITION,position);
