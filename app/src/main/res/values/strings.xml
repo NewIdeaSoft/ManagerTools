@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">管理工具</string>
+    <string name="problem_title">主题</string>
+    <string name="problem_title_hint">输入问题主题</string>
+    <string name="problem_details_title">详细描述</string>
+    <string name="problem_details_hint">在这里输入对你所发现的问题的详细描述</string>
+    <string name="problem_discovered_time">发现时间</string>
+    <string name="problem_discovered_position">发现地点</string>
+    <string name="problem_discovered_people">发现人</string>
+    <string name="problem_sovled_time">解决时间</string>
+    <string name="problem_sovled_people">终结者</string>
+    <string name="problem_reason_hint">在这里输入对此问题产生原因的分析</string>
+    <string name="make_picture">拍摄照片</string>
+    <string name="choose_picture">从相册选择</string>
+    <string name="no_simple_info">没有描述</string>
+</resources>
