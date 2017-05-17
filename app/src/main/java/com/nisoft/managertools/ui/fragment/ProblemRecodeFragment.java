@@ -21,7 +21,6 @@ import com.nisoft.managertools.R;
 import com.nisoft.managertools.db.ProblemDbSchema.ProblemTable;
 import com.nisoft.managertools.entity.Problem;
 import com.nisoft.managertools.entity.ProblemLab;
-import com.nisoft.managertools.entity.SingleProblem;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -67,8 +66,7 @@ public class ProblemRecodeFragment extends Fragment {
         if(actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mProblemIcon = (ImageView) view.findViewById(R.id.imageView_problem_icon);
-        if(mProblem.getPhotoPath()!=null&&mProblem.getPhotoPath().size()>0) {
+        mProblemIcon = (ImageView) view.findViewById(R.id.imageView_problem_icon);        if(mProblem.getPhotoPath()!=null&&mProblem.getPhotoPath().size()>0) {
             Glide.with(getActivity()).load(mProblem.getPhotoPath().get(0)).into(mProblemIcon);
         }
         if(mProblem.getTitle()!=null) {
@@ -167,11 +165,10 @@ public class ProblemRecodeFragment extends Fragment {
         problemFragmentList = new ArrayList<>();
         UUID uuid = (UUID) getArguments().getSerializable(ProblemTable.Cols.UUID);
         mProblem = ProblemLab.getProblemLab(getActivity()).getProblem(uuid);
-        SingleProblem.getSingleProblem(getActivity()).setProblem(mProblem);
-        problemFragmentList.add(ProblemSimpleInfoFragment.newInstance(uuid));
-        problemFragmentList.add(ProblemDetailedInfoFragment.newInstance(uuid));
-        problemFragmentList.add(ProblemReasonInfoFragment.newInstance(uuid));
-        problemFragmentList.add(ProblemSolvedInfoFragment.newInstance(uuid));
+        problemFragmentList.add(new ProblemSimpleInfoFragment());
+        problemFragmentList.add(new ProblemDetailedInfoFragment());
+        problemFragmentList.add(new ProblemReasonInfoFragment());
+        problemFragmentList.add(new ProblemSolvedInfoFragment());
     }
 
     private void resTabBackground(){

@@ -34,7 +34,6 @@ public class ProblemSolvedInfoFragment extends Fragment {
                 ProblemRecodeFragment.getProblem().setSolvedText(s.toString());
             }
         });
-//        mProblem = ProblemLab.getProblemLab(getActivity()).getProblem((UUID) getArguments().getSerializable(ProblemTable.Cols.UUID));
         mProblem = ProblemRecodeFragment.getProblem();
         if(mProblem.getSolvedText()!=null) {
             mSolvedText.setText(mProblem.getSolvedText());
@@ -56,7 +55,6 @@ public class ProblemSolvedInfoFragment extends Fragment {
     public void onPause() {
         super.onPause();
         updateProblem();
-//        ProblemLab.getProblemLab(getActivity()).updateProblem(mProblem);
         Log.e("TAG", "Solved");
     }
 

@@ -38,14 +38,6 @@ public class ProblemSimpleInfoFragment extends Fragment {
     private Button mHandledDate;
     private EditText mTitle;
 
-    public static ProblemSimpleInfoFragment newInstance(UUID uuid) {
-        Bundle args = new Bundle();
-        args.putSerializable(ProblemTable.Cols.UUID, uuid);
-        ProblemSimpleInfoFragment fragment = new ProblemSimpleInfoFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

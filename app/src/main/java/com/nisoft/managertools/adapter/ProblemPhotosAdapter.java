@@ -15,6 +15,7 @@ import com.nisoft.managertools.R;
 import com.nisoft.managertools.entity.ProblemLab;
 import com.nisoft.managertools.ui.fragment.LargePhotoFragment;
 import com.nisoft.managertools.ui.fragment.ProblemDetailedInfoFragment;
+import com.nisoft.managertools.ui.fragment.ProblemRecodeFragment;
 import com.nisoft.managertools.ui.fragment.UpdatePhotoMenuFragment;
 
 import java.util.ArrayList;
@@ -40,8 +41,7 @@ public class ProblemPhotosAdapter extends RecyclerView.Adapter<ProblemPhotosAdap
     }
     public ProblemPhotosAdapter(Context context,Fragment targetFragment,UUID uuid){
         mContext = context;
-        mUUID = uuid;
-        mPhotosPath = ProblemLab.getProblemLab(context).getProblem(uuid).getPhotoPath();
+        mPhotosPath = ProblemRecodeFragment.getProblem().getPhotoPath();
         mTargetFragment = targetFragment;
     }
     @Override

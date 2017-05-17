@@ -33,21 +33,9 @@ public class ProblemDetailedInfoFragment extends Fragment {
     private ProblemPhotosAdapter mAdapter;
     private ArrayList<String> mPhotosPath;
     private Problem mProblem;
-    private UUID uuid;
 
     public static final int PICTURE_REQUEST = 0;
-
-    public static ProblemDetailedInfoFragment newInstance(UUID uuid){
-        Bundle args = new Bundle();
-        args.putSerializable(ProblemTable.Cols.UUID,uuid);
-        ProblemDetailedInfoFragment fragment = new ProblemDetailedInfoFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     private void init(){
-        uuid = (UUID) getArguments().getSerializable(ProblemTable.Cols.UUID);
-//        mProblem = ProblemLab.getProblemLab(getActivity()).getProblem(uuid);
         mProblem = ProblemRecodeFragment.getProblem();
         mPhotosPath = mProblem.getPhotoPath();
         if(mPhotosPath == null) {
@@ -85,6 +73,7 @@ public class ProblemDetailedInfoFragment extends Fragment {
     private void initPhotos(){
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL);
         mProblemPhotoList.setLayoutManager(layoutManager);
+        UUID uuid = ProblemRecodeFragment.getProblem().getUUID();
         mAdapter = new ProblemPhotosAdapter(getActivity(),ProblemDetailedInfoFragment.this,uuid);
         mProblemPhotoList.setAdapter(mAdapter);
     }

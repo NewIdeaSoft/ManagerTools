@@ -10,7 +10,7 @@ public class Member {
     private String mPassword;
     private String mTelephoneNumber;
     private String mMoblephoneNumber;
-    private Organization mOrganization;
+    private OrganizationStructure mOrganizationMap;
     private String mJop;
     private String mPosition;
     private int mPermissionLevel;
@@ -63,11 +63,4 @@ public class Member {
         mMoblephoneNumber = moblephoneNumber;
     }
 
-    public Organization getOrganization() {
-        return mOrganization;
-    }
-
-    public void setOrganization(Organization organization) {
-        mOrganization = organization;
-    }
 }

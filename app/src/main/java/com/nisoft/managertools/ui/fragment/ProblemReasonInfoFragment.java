@@ -54,8 +54,6 @@ public class ProblemReasonInfoFragment extends Fragment {
     public void onPause() {
         super.onPause();
         updateProblem();
-//        ProblemLab.getProblemLab(getActivity()).updateProblem(mProblem);
-        Log.e("TAG", "Reason");
     }
 
     private void updateProblem(){
