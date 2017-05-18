@@ -58,7 +58,6 @@ public class ProblemPhotosAdapter extends RecyclerView.Adapter<ProblemPhotosAdap
                     FragmentManager manager = ((Activity)mContext).getFragmentManager();
                     UpdatePhotoMenuFragment fragment = UpdatePhotoMenuFragment.newInstance(mUUID,position);
                     fragment.setTargetFragment(mTargetFragment, ProblemDetailedInfoFragment.PICTURE_REQUEST);
-//                    fragment.setTargetFragment(mTargetFragment,UpdatePhotoMenuFragment.CHOOSE_PHOTO);
                     fragment.show(manager,"update_menu");
 
                 }else{

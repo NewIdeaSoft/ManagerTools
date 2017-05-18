@@ -138,4 +138,9 @@ public class ProblemLab {
         mDatabase.update(ProblemTable.NAME, values, ProblemTable.Cols.UUID + "=?", new String[]{uuidString});
 
     }
+
+    public void delete(Problem problem) {
+        UUID uuid = problem.getUUID();
+        mDatabase.delete(ProblemTable.NAME,ProblemTable.Cols.UUID+"=?",new String[]{uuid.toString()});
+    }
 }

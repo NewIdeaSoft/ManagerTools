@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nisoft.managertools.R;
+import com.nisoft.managertools.adapter.AnotherListAdapter;
 import com.nisoft.managertools.adapter.ProblemsListAdapter;
 import com.nisoft.managertools.db.ProblemDbSchema.ProblemTable;
 import com.nisoft.managertools.entity.Problem;
@@ -32,7 +33,8 @@ import java.util.ArrayList;
 
 public class ProblemListFragment extends Fragment {
     private ArrayList<Problem> mProblems;
-    private ProblemsListAdapter mAdapter;
+//    private ProblemsListAdapter mAdapter;
+    private AnotherListAdapter mAdapter;
     private RecyclerView mProblemsRecyclerView;
     private FloatingActionButton mNewProblemRecodeFAB;
 
@@ -41,7 +43,8 @@ public class ProblemListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mProblems = ProblemLab.getProblemLab(getActivity()).getProblems();
         Log.e("length1:",mProblems.size()+"");
-        mAdapter = new ProblemsListAdapter(this,mProblems);
+//        mAdapter = new ProblemsListAdapter(this,mProblems);
+        mAdapter = new AnotherListAdapter(getActivity(),mProblems);
     }
 
     @Nullable
@@ -59,11 +62,7 @@ public class ProblemListFragment extends Fragment {
         mNewProblemRecodeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Problem problem = new Problem();
-                Intent intent = new Intent(getActivity(), ProblemRecodeActivity.class);
-                ProblemLab.getProblemLab(getActivity()).addProblem(problem);
-                intent.putExtra(ProblemTable.Cols.UUID,problem.getUUID());
-                startActivity(intent);
+                createProblem();
             }
         });
         return view;
@@ -78,11 +77,8 @@ public class ProblemListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.delete :
-
-                break;
             case R.id.new_problem_menu :
-
+                createProblem();
                 break;
             case R.id.search :
 
@@ -98,12 +94,20 @@ public class ProblemListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(mAdapter == null) {
-            mAdapter = new ProblemsListAdapter(this,mProblems);
+//            mAdapter = new ProblemsListAdapter(this,mProblems);
+            mAdapter = new AnotherListAdapter(getActivity(),mProblems);
             mProblemsRecyclerView.setAdapter(mAdapter);
         }else{
             ArrayList<Problem> problems = ProblemLab.getProblemLab(getActivity()).getProblems();
             mAdapter.setProblems(problems);
             mAdapter.notifyDataSetChanged();
         }
+    }
+    private void createProblem(){
+        Problem problem = new Problem();
+        Intent intent = new Intent(getActivity(), ProblemRecodeActivity.class);
+        ProblemLab.getProblemLab(getActivity()).addProblem(problem);
+        intent.putExtra(ProblemTable.Cols.UUID,problem.getUUID());
+        startActivity(intent);
     }
 }
