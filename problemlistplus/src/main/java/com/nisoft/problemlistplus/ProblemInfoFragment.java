@@ -1,4 +1,4 @@
-package com.nisoft.managertools.ui.singleproblem;
+package com.nisoft.problemlistplus;
 
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -11,11 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.nisoft.managertools.R;
-import com.nisoft.managertools.db.ProblemDbSchema.ProblemTable;
+import com.nisoft.problemlistplus.db.ProblemDbSchema.ProblemTable;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -50,7 +48,7 @@ public class ProblemInfoFragment extends Fragment {
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar_new);
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar_new);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        mProblemIcon = (ImageView) collapsingToolbarLayout.findViewById(R.id.imageView_problem_icon);
+        mProblemIcon = (ImageView) collapsingToolbarLayout.findViewById(R.id.imageView_problem_photo);
         ActionBar actionBar =  getActivity().getActionBar();
         if(actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
