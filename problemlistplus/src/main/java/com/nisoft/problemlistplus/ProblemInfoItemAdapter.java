@@ -2,6 +2,8 @@ package com.nisoft.problemlistplus;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +38,33 @@ public class ProblemInfoItemAdapter extends RecyclerView.Adapter<ProblemInfoItem
 
     @Override
     public void onBindViewHolder(ProblemInfoItemViewHolder holder, int position) {
+        final int witch = position;
         Content content = contents.get(position);
         holder.itemTitle.setText(content.getmTitle());
         holder.itemContent.setText(content.getmText());
+        holder.itemContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                switch (witch){
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         holder.itemDate.setText(content.getmDate().toString());
         holder.itemAuthor.setText(content.getmAuthor());
     }

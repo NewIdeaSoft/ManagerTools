@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.nisoft.managertools.R;
 import com.nisoft.managertools.db.ProblemDbSchema.ProblemTable;
+import com.nisoft.managertools.utils.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,12 +57,14 @@ public class UpdatePhotoMenuFragment extends DialogFragment {
     private Button mChoosePhoto;
     private String path;
     private UUID uuid;
+    private int position;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dialog, container);
         uuid = (UUID) getArguments().getSerializable(ProblemTable.Cols.UUID);
+        position = getArguments().getInt(IMAGE_POSITION);
         mMakePhoto = (Button) view.findViewById(R.id.make_picture);
         mChoosePhoto = (Button) view.findViewById(R.id.choose_picture);
 
@@ -108,14 +111,11 @@ public class UpdatePhotoMenuFragment extends DialogFragment {
         //调用系统相机拍摄照片
         //照片文件存储路径
         Uri uri = null;
-        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+IMAGE_PATH);
+        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+IMAGE_PATH+uuid.toString()+"/");
         if(!dir.exists()) {
-            dir.mkdir();
+            dir.mkdirs();
         }
-        int position = -1;
-        position = getArguments().getInt(IMAGE_POSITION);
-        Log.e(IMAGE_POSITION,position+"");
-        File outputImage = new File(dir, uuid.toString()+"_" + position +".jpg");
+        File outputImage = new File(dir, position +".jpg");
         path = null;
         if (outputImage.exists()) {
             outputImage.delete();
@@ -176,6 +176,13 @@ public class UpdatePhotoMenuFragment extends DialogFragment {
                 }else if("file".equalsIgnoreCase(uri.getScheme())) {
                     photoPath = uri.getPath();
                 }
+                File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+IMAGE_PATH+uuid.toString()+"/");
+                if(!dir.exists()) {
+                    dir.mkdirs();
+                }
+                String targetPhtotPath = Environment.getExternalStorageDirectory().getAbsolutePath()+IMAGE_PATH+uuid.toString()+"/"+position+".jpg";
+                FileUtil.copyFile(photoPath,targetPhtotPath);
+                photoPath = targetPhtotPath;
         }
         Intent i = new Intent();
         i.putExtra("PhotoPath",photoPath);

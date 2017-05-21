@@ -1,7 +1,6 @@
 package com.nisoft.problemlistplus;
 
 import android.app.Fragment;
-import android.os.Bundle;
 
 import com.nisoft.problemlistplus.entity.Problem;
 

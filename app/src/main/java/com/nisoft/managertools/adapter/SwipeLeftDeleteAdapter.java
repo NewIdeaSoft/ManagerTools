@@ -21,6 +21,9 @@ import com.nisoft.managertools.ui.activity.ProblemListActivity;
 import com.nisoft.managertools.ui.activity.ProblemRecodeActivity;
 import com.nisoft.managertools.ui.fragment.ProblemListFragment;
 
+import java.io.File;
+import java.util.ArrayList;
+
 /**
  * Created by Administrator on 2017/5/18.
  */
@@ -68,7 +71,16 @@ public class SwipeLeftDeleteAdapter extends RecyclerView.Adapter<SwipeLeftDelete
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ArrayList<String> photosPath = mProblem.getPhotoPath();
                     ProblemLab.getProblemLab(mContext.getApplicationContext()).delete(mProblem);
+                    //删除照片文件，添加从相册复制文件到应用图片存储文件后启用，以免删除相册图片
+
+                    if (photosPath!=null&&photosPath.size()>0){
+                        for (int i = 0;i<photosPath.size();i++){
+                            File file = new File(photosPath.get(i));
+                            file.delete();
+                        }
+                    }
                     (((ProblemListActivity)mContext).getFragmentManager().findFragmentById(R.id.fragment_content)).onResume();
                 }
             });

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/ManagerTools.iml" filepath="$PROJECT_DIR$/ManagerTools.iml" />
       <module fileurl="file://$PROJECT_DIR$/androidlib/androidlib.iml" filepath="$PROJECT_DIR$/androidlib/androidlib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/memberinfo/memberinfo.iml" filepath="$PROJECT_DIR$/memberinfo/memberinfo.iml" />
       <module fileurl="file://$PROJECT_DIR$/problemlistplus/problemlistplus.iml" filepath="$PROJECT_DIR$/problemlistplus/problemlistplus.iml" />
     </modules>
   </component>
