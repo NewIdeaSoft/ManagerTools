@@ -1,11 +1,7 @@
 package com.nisoft.memberinfo;
 
-import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ListViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
                             levelNameEdit.setFocusableInTouchMode(true);
                             levelNameEdit.requestFocus();
                         }
-//                        levelNameEdit.setEnabled(true);
-//                        levelEditButton.setBackgroundResource(android.R.drawable.stat_sys_download_done);
                     }
                 });
             }
