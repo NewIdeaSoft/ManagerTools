@@ -56,7 +56,7 @@ public class ProblemRecodeFragment extends Fragment {
         return initView(inflater,container,savedInstanceState);
     }
     private View initView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_problem_recode,container,false);
+        View view = inflater.inflate(R.layout.fragment_problem_recode1,container,false);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
