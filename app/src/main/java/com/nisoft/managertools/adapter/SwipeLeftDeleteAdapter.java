@@ -2,7 +2,6 @@ package com.nisoft.managertools.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,12 +13,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nisoft.managertools.R;
-import com.nisoft.managertools.db.ProblemDbSchema;
-import com.nisoft.managertools.entity.Problem;
-import com.nisoft.managertools.entity.ProblemLab;
+import com.nisoft.managertools.db.problem.RecodeDbSchema;
+import com.nisoft.managertools.entity.problem.ProblemDataLab;
+import com.nisoft.managertools.entity.problem.ProblemRecode;
 import com.nisoft.managertools.ui.activity.ProblemListActivity;
 import com.nisoft.managertools.ui.activity.ProblemRecodeActivity;
-import com.nisoft.managertools.ui.fragment.ProblemListFragment;
+import com.nisoft.managertools.utils.FileUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,8 +29,8 @@ import java.util.ArrayList;
 
 public class SwipeLeftDeleteAdapter extends RecyclerView.Adapter<SwipeLeftDeleteAdapter.SwipeLeftViewHolder> {
     private Context mContext;
-    private Problem mProblem;
-    public SwipeLeftDeleteAdapter(Context context, Problem problem){
+    private ProblemRecode mProblem;
+    public SwipeLeftDeleteAdapter(Context context, ProblemRecode problem){
         mContext = context;
         mProblem = problem;
     }
@@ -44,21 +43,24 @@ public class SwipeLeftDeleteAdapter extends RecyclerView.Adapter<SwipeLeftDelete
     @Override
     public void onBindViewHolder(SwipeLeftViewHolder holder, int position) {
         if (position == 0){
-            if (mProblem.getPhotoPath()!=null&&mProblem.getPhotoPath().size()>0){
-                Glide.with(mContext).load(mProblem.getPhotoPath().get(0)).into(holder.mProblemImageView);
+            String folderPath = mProblem.getImagesFolderPath();
+            ArrayList<String> pathList = FileUtil.getImagesPath(folderPath);
+
+            if (pathList!=null&&pathList.size()>0){
+                Glide.with(mContext).load(pathList.get(0)).into(holder.mProblemImageView);
             }
             if (mProblem.getTitle()!=null){
                 holder.mProblemTitle.setText(mProblem.getTitle());
             }
-            if (mProblem.getDetailedText()!=null){
-                holder.mProblemDetailedInfo.setText(mProblem.getDetailedText());
+            if (mProblem.getDescription()!=null){
+                holder.mProblemDetailedInfo.setText(mProblem.getDescription());
             }
 
             holder.mParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, ProblemRecodeActivity.class);
-                    intent.putExtra(ProblemDbSchema.ProblemTable.Cols.UUID,mProblem.getUUID());
+                    intent.putExtra(RecodeDbSchema.RecodeTable.Cols.PROBLEM_ID,mProblem.getRecodeId());
                     mContext.startActivity(intent);
                 }
             });
@@ -71,13 +73,14 @@ public class SwipeLeftDeleteAdapter extends RecyclerView.Adapter<SwipeLeftDelete
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ArrayList<String> photosPath = mProblem.getPhotoPath();
-                    ProblemLab.getProblemLab(mContext.getApplicationContext()).delete(mProblem);
+                    String folderPath = mProblem.getImagesFolderPath();
+                    ArrayList<String> pathList = FileUtil.getImagesPath(folderPath);
+                    ProblemDataLab.getProblemDataLab(mContext.getApplicationContext()).delete(mProblem);
                     //删除照片文件，添加从相册复制文件到应用图片存储文件后启用，以免删除相册图片
 
-                    if (photosPath!=null&&photosPath.size()>0){
-                        for (int i = 0;i<photosPath.size();i++){
-                            File file = new File(photosPath.get(i));
+                    if (pathList!=null&&pathList.size()>0){
+                        for (int i = 0;i<pathList.size();i++){
+                            File file = new File(pathList.get(i));
                             file.delete();
                         }
                     }

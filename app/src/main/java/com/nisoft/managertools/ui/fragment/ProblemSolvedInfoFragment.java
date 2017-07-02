@@ -7,43 +7,40 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.nisoft.managertools.R;
-import com.nisoft.managertools.db.ProblemDbSchema.ProblemTable;
-import com.nisoft.managertools.engine.EditTextWather;
-import com.nisoft.managertools.entity.Problem;
-
-import java.util.UUID;
+import com.nisoft.managertools.db.problem.RecodeDbSchema;
+import com.nisoft.managertools.entity.problem.Recode;
 
 /**
  * Created by NewIdeaSoft on 2017/4/26.
  */
 
 public class ProblemSolvedInfoFragment extends Fragment {
-    private EditText mSolvedText;
-    private Problem mProblem;
+    private TextView mSolvedText;
+    private Recode mProblem;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_problem_sovled_info,container,false);
-        mSolvedText = (EditText) view.findViewById(R.id.edit_problem_solved_info);
-        mSolvedText.addTextChangedListener(new EditTextWather(){
+        mSolvedText = (TextView) view.findViewById(R.id.tv_problem_program_info);
+        mSolvedText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ProblemRecodeFragment.getProblem().setSolvedText(s.toString());
+            public void onClick(View v) {
+
             }
         });
-        mProblem = ProblemRecodeFragment.getProblem();
-        if(mProblem.getSolvedText()!=null) {
-            mSolvedText.setText(mProblem.getSolvedText());
+        mProblem = ProblemRecodeFragment.getProblem().getProgram();
+        if(mProblem.getDescription()!=null) {
+            mSolvedText.setText(mProblem.getDescription());
         }
         return view;
     }
 
-    public static ProblemSolvedInfoFragment newInstance(UUID id) {
+    public static ProblemSolvedInfoFragment newInstance(String problemId) {
         Bundle args = new Bundle();
-        args.putSerializable(ProblemTable.Cols.UUID,id);
+        args.putSerializable(RecodeDbSchema.RecodeTable.Cols.PROBLEM_ID,problemId);
         ProblemSolvedInfoFragment fragment = new ProblemSolvedInfoFragment();
         fragment.setArguments(args);
         return fragment;
@@ -59,7 +56,7 @@ public class ProblemSolvedInfoFragment extends Fragment {
     }
 
     private void updateProblem(){
-        mProblem.setSolvedText(mSolvedText.getText().toString());
-        ProblemRecodeFragment.getProblem().setSolvedText(mSolvedText.getText().toString());
+        mProblem.setDescription(mSolvedText.getText().toString());
+        ProblemRecodeFragment.getProblem().getProgram().setDescription(mSolvedText.getText().toString());
     }
 }

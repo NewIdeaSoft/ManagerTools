@@ -16,21 +16,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
 import com.nisoft.managertools.R;
-import com.nisoft.managertools.db.ProblemDbSchema.ProblemTable;
-import com.nisoft.managertools.entity.Problem;
-import com.nisoft.managertools.entity.ProblemLab;
+import com.nisoft.managertools.db.problem.RecodeDbSchema.RecodeTable;
+import com.nisoft.managertools.entity.problem.ProblemDataLab;
+import com.nisoft.managertools.entity.problem.ProblemDataPackage;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by NewIdeaSoft on 2017/4/25.
  */
 
 public class ProblemRecodeFragment extends Fragment {
-    private static Problem mProblem;
+    private static ProblemDataPackage mProblem;
     private ImageView mProblemIcon;
     private ViewPager problemViewPager;
     private ArrayList<Fragment> problemFragmentList;
@@ -38,9 +36,9 @@ public class ProblemRecodeFragment extends Fragment {
     private LinearLayout tab_problem_detailed_info;
     private LinearLayout tab_problem_reason_info;
     private LinearLayout tab_problem_solved_info;
-    public static ProblemRecodeFragment newInstance(UUID uuid){
+    public static ProblemRecodeFragment newInstance(String problemId){
         Bundle args = new Bundle();
-        args.putSerializable(ProblemTable.Cols.UUID,uuid);
+        args.putString(RecodeTable.Cols.PROBLEM_ID,problemId);
         ProblemRecodeFragment fragment = new ProblemRecodeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -66,11 +64,9 @@ public class ProblemRecodeFragment extends Fragment {
         if(actionBar!=null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mProblemIcon = (ImageView) view.findViewById(R.id.imageView_problem_icon);        if(mProblem.getPhotoPath()!=null&&mProblem.getPhotoPath().size()>0) {
-            Glide.with(getActivity()).load(mProblem.getPhotoPath().get(0)).into(mProblemIcon);
-        }
-        if(mProblem.getTitle()!=null) {
-            collapsingToolbarLayout.setTitle(mProblem.getTitle());
+
+        if(mProblem.getProblem().getTitle()!=null) {
+            collapsingToolbarLayout.setTitle(mProblem.getProblem().getTitle());
         }else {
             collapsingToolbarLayout.setTitle("问题主题");
         }
@@ -163,8 +159,8 @@ public class ProblemRecodeFragment extends Fragment {
 
     private void initVariables(){
         problemFragmentList = new ArrayList<>();
-        UUID uuid = (UUID) getArguments().getSerializable(ProblemTable.Cols.UUID);
-        mProblem = ProblemLab.getProblemLab(getActivity()).getProblem(uuid);
+        String problemId = getArguments().getString(RecodeTable.Cols.PROBLEM_ID);
+        mProblem = ProblemDataLab.getProblemDataLab(getActivity()).getProblemById(problemId);
         problemFragmentList.add(new ProblemSimpleInfoFragment());
         problemFragmentList.add(new ProblemDetailedInfoFragment());
         problemFragmentList.add(new ProblemReasonInfoFragment());
@@ -181,12 +177,12 @@ public class ProblemRecodeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        ProblemLab.getProblemLab(getActivity()).updateProblem(getProblem());
+        ProblemDataLab.getProblemDataLab(getActivity()).updateProblem(getProblem());
     }
 
-    public static Problem getProblem(){
+    public static ProblemDataPackage getProblem(){
         if(mProblem==null) {
-            mProblem = new Problem();
+            mProblem =new ProblemDataPackage();
         }
         return mProblem;
     }

@@ -19,10 +19,8 @@ import android.view.ViewGroup;
 
 import com.nisoft.managertools.R;
 import com.nisoft.managertools.adapter.AnotherListAdapter;
-import com.nisoft.managertools.adapter.ProblemsListAdapter;
-import com.nisoft.managertools.db.ProblemDbSchema.ProblemTable;
-import com.nisoft.managertools.entity.Problem;
-import com.nisoft.managertools.entity.ProblemLab;
+import com.nisoft.managertools.entity.problem.ProblemDataLab;
+import com.nisoft.managertools.entity.problem.ProblemRecode;
 import com.nisoft.managertools.ui.activity.ProblemRecodeActivity;
 
 import java.util.ArrayList;
@@ -32,8 +30,7 @@ import java.util.ArrayList;
  */
 
 public class ProblemListFragment extends Fragment {
-    private ArrayList<Problem> mProblems;
-//    private ProblemsListAdapter mAdapter;
+    private ArrayList<ProblemRecode> mProblems;
     private AnotherListAdapter mAdapter;
     private RecyclerView mProblemsRecyclerView;
     private FloatingActionButton mNewProblemRecodeFAB;
@@ -41,9 +38,8 @@ public class ProblemListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mProblems = ProblemLab.getProblemLab(getActivity()).getProblems();
+        mProblems = ProblemDataLab.getProblemDataLab(getActivity()).getAllProblem();
         Log.e("length1:",mProblems.size()+"");
-//        mAdapter = new ProblemsListAdapter(this,mProblems);
         mAdapter = new AnotherListAdapter(getActivity(),mProblems);
     }
 
@@ -94,20 +90,22 @@ public class ProblemListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(mAdapter == null) {
-//            mAdapter = new ProblemsListAdapter(this,mProblems);
             mAdapter = new AnotherListAdapter(getActivity(),mProblems);
             mProblemsRecyclerView.setAdapter(mAdapter);
         }else{
-            ArrayList<Problem> problems = ProblemLab.getProblemLab(getActivity()).getProblems();
+            ArrayList<ProblemRecode> problems = ProblemDataLab.getProblemDataLab(getActivity()).getAllProblem();
             mAdapter.setProblems(problems);
             mAdapter.notifyDataSetChanged();
         }
     }
     private void createProblem(){
-        Problem problem = new Problem();
+        ProblemRecode problem = new ProblemRecode(getNewId());
         Intent intent = new Intent(getActivity(), ProblemRecodeActivity.class);
-        ProblemLab.getProblemLab(getActivity()).addProblem(problem);
-        intent.putExtra(ProblemTable.Cols.UUID,problem.getUUID());
+        ProblemDataLab.getProblemDataLab(getActivity()).addProblem(problem);
         startActivity(intent);
+    }
+
+    private String getNewId(){
+        return "";
     }
 }

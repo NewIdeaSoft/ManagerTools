@@ -2,10 +2,10 @@ package com.nisoft.managertools.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/5/19.
@@ -14,7 +14,7 @@ import java.io.OutputStream;
 public class FileUtil {
     /***
      *
-     * @param file 源文件
+     * @param resPath 源文件
      * @param targetPath 目标路径
      */
     public static void copyFile(String resPath,String targetPath){
@@ -37,5 +37,27 @@ public class FileUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void moveFile(String photoPath, String targetPhotoPath) {
+
+    }
+
+    public static ArrayList<String> getImagesPath(String folderPath){
+        File file = new File(folderPath);
+        if(!file.exists()) {
+            file.mkdirs();
+        }
+        String [] files = file.list();
+        ArrayList<String> pathList = null;
+        if(files!=null&&files.length>0) {
+            pathList = new ArrayList<>();
+            for (String fileName : files) {
+                if(fileName.endsWith("jpg")||fileName.endsWith("bmp")||fileName.endsWith("png")) {
+                    pathList.add(folderPath+"/"+fileName);
+                }
+            }
+        }
+        return pathList;
     }
 }

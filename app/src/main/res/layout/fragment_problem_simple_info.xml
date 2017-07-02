@@ -10,17 +10,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp">
+        android:paddingRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="4dp">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/problem_title"/>
-        <EditText
-            android:id="@+id/edit_title"
+        <TextView
+            android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="2"/>
     </LinearLayout>
     <LinearLayout
@@ -28,17 +30,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp">
+        android:paddingRight="8dp"
+        android:layout_marginBottom="8dp">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/problem_discovered_time"/>
-        <Button
+        <TextView
             android:id="@+id/button_discovered_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="2"/>
     </LinearLayout>
     <LinearLayout
@@ -46,14 +49,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp">
+        android:paddingRight="8dp"
+        android:layout_marginBottom="8dp">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/problem_discovered_position"/>
-        <EditText
-            android:id="@+id/edit_discover_position"
+        <TextView
+            android:id="@+id/tv_discover_position"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -64,54 +68,37 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp">
+        android:paddingRight="8dp"
+        android:layout_marginBottom="8dp">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/problem_discovered_people"/>
-        <EditText
-            android:id="@+id/edit_discover"
+        <TextView
+            android:id="@+id/tv_discover"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_weight="2"/>
     </LinearLayout>
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/problem_sovled_time"/>
-        <Button
-            android:id="@+id/button_handled_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="2"/>
-    </LinearLayout>
-    <LinearLayout
+        android:text="问题描述"
+        android:textColor="#000000"
+        android:layout_marginBottom="8dp"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/problem_sovled_people"/>
-        <EditText
-            android:id="@+id/edit_handler"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="2"/>
-    </LinearLayout>
-
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:id="@+id/tv_description"
+        android:textColor="#000000"
+        android:layout_marginBottom="8dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/problem_images_recycler_view">
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

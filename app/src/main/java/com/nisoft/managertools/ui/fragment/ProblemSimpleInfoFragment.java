@@ -6,22 +6,18 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.nisoft.managertools.R;
-import com.nisoft.managertools.db.ProblemDbSchema.ProblemTable;
-import com.nisoft.managertools.engine.EditTextWather;
-import com.nisoft.managertools.entity.Problem;
-import com.nisoft.managertools.entity.ProblemLab;
+import com.nisoft.managertools.entity.problem.ProblemRecode;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by NewIdeaSoft on 2017/4/26.
@@ -30,66 +26,52 @@ import java.util.UUID;
 public class ProblemSimpleInfoFragment extends Fragment {
     public static final int REQUEST_CODE_DISCOVERED_DATE = 11;
     public static final int REQUEST_CODE_HANDLED_DATE = 12;
-    private Problem mProblem;
-    private Button mDiscoveredDate;
-    private EditText mDiscover;
-    private EditText mDiscoveredPosition;
-    private EditText mHandler;
-    private Button mHandledDate;
-    private EditText mTitle;
+    private ProblemRecode mProblem;
+    private TextView mDiscoveredDate;
+    private TextView mDiscover;
+    private TextView mDiscoveredPosition;
+    private TextView mTitle;
+    RecyclerView mImagesRecyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mProblem = ProblemRecodeFragment.getProblem();
+        mProblem = ProblemRecodeFragment.getProblem().getProblem();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_problem_simple_info, container, false);
-        mTitle = (EditText) view.findViewById(R.id.edit_title);
-        mTitle.addTextChangedListener(new EditTextWather(){
+        mTitle = (TextView) view.findViewById(R.id.tv_title);
+        mTitle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ProblemRecodeFragment.getProblem().setTitle(s.toString());
+            public void onClick(View v) {
+
             }
         });
-        mDiscoveredDate = (Button) view.findViewById(R.id.button_discovered_time);
+        mDiscoveredDate = (TextView) view.findViewById(R.id.button_discovered_time);
         mDiscoveredDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog(REQUEST_CODE_DISCOVERED_DATE,"选择发现时间");
             }
         });
-        mDiscover = (EditText) view.findViewById(R.id.edit_discover);
-        mDiscover.addTextChangedListener(new EditTextWather(){
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ProblemRecodeFragment.getProblem().setDiscover(s.toString());
-            }
-        });
-        mDiscoveredPosition = (EditText) view.findViewById(R.id.edit_discover_position);
-        mDiscoveredPosition.addTextChangedListener(new EditTextWather(){
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ProblemRecodeFragment.getProblem().setPosition(s.toString());
-            }
-        });
-        mHandledDate = (Button) view.findViewById(R.id.button_handled_time);
-        mHandledDate.setOnClickListener(new View.OnClickListener() {
+        mDiscover = (TextView) view.findViewById(R.id.tv_discover);
+        mDiscover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(REQUEST_CODE_HANDLED_DATE,"选择解决日期");
+
             }
         });
-        mHandler = (EditText) view.findViewById(R.id.edit_handler);
-        mHandler.addTextChangedListener(new EditTextWather(){
+        mDiscoveredPosition = (TextView) view.findViewById(R.id.tv_discover_position);
+        mDiscoveredPosition.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ProblemRecodeFragment.getProblem().setSolver(s.toString());
+            public void onClick(View v) {
+
             }
         });
+        mImagesRecyclerView = (RecyclerView) view.findViewById(R.id.problem_images_recycler_view);
         updateView();
         return view;
     }
@@ -102,16 +84,10 @@ public class ProblemSimpleInfoFragment extends Fragment {
         Date date = (Date) data.getSerializableExtra(DatePickerDialog.DATE_INITIALIZE);
         switch (requestCode) {
             case  REQUEST_CODE_DISCOVERED_DATE:
-                ProblemRecodeFragment.getProblem().setDate(date);
+                ProblemRecodeFragment.getProblem().getProblem().setDate(date);
 //                mProblem.setDate(date);
 //                SingleProblem.getSingleProblem(getActivity()).getProblem().setDate(date);
                 mDiscoveredDate.setText(dateFormat(date));
-                break;
-            case  REQUEST_CODE_HANDLED_DATE:
-                ProblemRecodeFragment.getProblem().setSolvedDate(date);
-                mProblem.setSolvedDate(date);
-//                SingleProblem.getSingleProblem(getActivity()).getProblem().setSolvedDate(date);
-                mHandledDate.setText(dateFormat(date));
                 break;
         }
     }
@@ -123,11 +99,9 @@ public class ProblemSimpleInfoFragment extends Fragment {
         super.onPause();
         updateProblemInfo();
 //        ProblemLab.getProblemLab(getActivity()).updateProblem(mProblem);
-        Log.e("TAG",mProblem.getDiscover());
+        Log.e("TAG",mProblem.getAuthor());
         Log.e("TAG",mProblem.getDate().toString());
-        Log.e("TAG",mProblem.getPosition());
-        Log.e("TAG",mProblem.getSolver());
-        Log.e("TAG",mProblem.getSolvedDate().toString());
+        Log.e("TAG",mProblem.getAddress());
         Log.e("TAG","simple");
     }
 
@@ -137,53 +111,22 @@ public class ProblemSimpleInfoFragment extends Fragment {
     }
 
     private void updateView() {
-        mProblem = ProblemRecodeFragment.getProblem();
+        mProblem = ProblemRecodeFragment.getProblem().getProblem();
         if(mProblem.getTitle()!=null) {
             mTitle.setText(mProblem.getTitle());
         }
         if (mProblem.getDate() != null) {
             mDiscoveredDate.setText(dateFormat(mProblem.getDate()));
         }
-        if (mProblem.getDiscover() != null) {
-            mDiscover.setText(mProblem.getDiscover());
+        if (mProblem.getAuthor() != null) {
+            mDiscover.setText(mProblem.getAuthor());
         }
-        if (mProblem.getPosition() != null) {
-            mDiscoveredPosition.setText(mProblem.getPosition());
+        if (mProblem.getAddress() != null) {
+            mDiscoveredPosition.setText(mProblem.getAddress());
         }
-        if (mProblem.getSolvedDate() != null) {
-            mHandledDate.setText(dateFormat(mProblem.getSolvedDate()));
-        }
-        if (mProblem.getSolver() != null) {
-            mHandler.setText(mProblem.getSolver());
-        }
+
     }
-//    private void updateView(){
-//        Problem problem = SingleProblem.getSingleProblem(getActivity()).getProblem();
-//        Date discoverDate = problem.getDate();
-//        String position = problem.getPosition();
-//        String discover = problem.getDiscover();
-//        String handler = problem.getSolver();
-//        Date solvedDate = problem.getSolvedDate();
-//        if(discoverDate==null) {
-//            discoverDate = new Date();
-//            SingleProblem.getSingleProblem(getActivity()).getProblem().setDate(discoverDate);
-//
-//        }
-//        mDiscoveredDate.setText(dateFormat(discoverDate));
-//        if(position!=null) {
-//            mDiscoveredPosition.setText(position);
-//        }
-//        if(discover!=null) {
-//            mDiscover.setText(discover);
-//        }
-//        if(solvedDate==null) {
-//            solvedDate = new Date();
-//            SingleProblem.getSingleProblem(getActivity()).getProblem().setSolvedDate(solvedDate);
-//
-//        }
-//        mHandledDate.setText(dateFormat(solvedDate));
-//        mHandler.setText(handler);
-//    }
+
     private String dateFormat(Date date){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String dateString = format.format(date);
@@ -198,13 +141,9 @@ public class ProblemSimpleInfoFragment extends Fragment {
     }
 
     private void updateProblemInfo(){
-//        mProblem.setTitle(mTitle.getText().toString());
-//        mProblem.setDiscover(mDiscover.getText().toString());
-//        mProblem.setPosition(mDiscoveredPosition.getText().toString());
-//        mProblem.setSolver(mHandler.getText().toString());
-        ProblemRecodeFragment.getProblem().setTitle(mTitle.getText().toString());
-        ProblemRecodeFragment.getProblem().setDiscover(mDiscover.getText().toString());
-        ProblemRecodeFragment.getProblem().setPosition(mDiscoveredPosition.getText().toString());
-        ProblemRecodeFragment.getProblem().setSolver(mHandler.getText().toString());
+
+        ProblemRecodeFragment.getProblem().getProblem().setTitle(mTitle.getText().toString());
+        ProblemRecodeFragment.getProblem().getProblem().setAuthor(mDiscover.getText().toString());
+        ProblemRecodeFragment.getProblem().getProblem().setAddress(mDiscoveredPosition.getText().toString());
     }
 }

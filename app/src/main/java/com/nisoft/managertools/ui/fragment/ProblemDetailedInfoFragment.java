@@ -16,12 +16,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.nisoft.managertools.R;
-import com.nisoft.managertools.adapter.ProblemPhotosAdapter;
-import com.nisoft.managertools.db.ProblemDbSchema.ProblemTable;
-import com.nisoft.managertools.entity.Problem;
+import com.nisoft.managertools.adapter.JobPicsAdapter;
+import com.nisoft.managertools.entity.problem.ProblemRecode;
+import com.nisoft.managertools.utils.FileUtil;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by NewIdeaSoft on 2017/4/26.
@@ -30,14 +29,16 @@ import java.util.UUID;
 public class ProblemDetailedInfoFragment extends Fragment {
     private RecyclerView mProblemPhotoList;
     private EditText mProblemDetailedInfo;
-    private ProblemPhotosAdapter mAdapter;
+    private JobPicsAdapter mAdapter;
     private ArrayList<String> mPhotosPath;
-    private Problem mProblem;
+    private ProblemRecode mProblem;
 
     public static final int PICTURE_REQUEST = 0;
     private void init(){
-        mProblem = ProblemRecodeFragment.getProblem();
-        mPhotosPath = mProblem.getPhotoPath();
+        mProblem = ProblemRecodeFragment.getProblem().getProblem();
+        String folderPath = mProblem.getImagesFolderPath();
+        mPhotosPath = FileUtil.getImagesPath(folderPath);
+
         if(mPhotosPath == null) {
             mPhotosPath = new ArrayList<>();
         }
@@ -46,8 +47,8 @@ public class ProblemDetailedInfoFragment extends Fragment {
     private void initView(View view){
         mProblemPhotoList = (RecyclerView) view.findViewById(R.id.problem_photo_list);
         mProblemDetailedInfo = (EditText) view.findViewById(R.id.edit_problem_detailed_info);
-        if(mProblem.getDetailedText()!=null) {
-            mProblemDetailedInfo.setText(mProblem.getDetailedText());
+        if(mProblem.getDescription()!=null) {
+            mProblemDetailedInfo.setText(mProblem.getDescription());
         }
         mProblemDetailedInfo.addTextChangedListener(new TextWatcher() {
             @Override
@@ -58,8 +59,8 @@ public class ProblemDetailedInfoFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.length()>0) {
-                    mProblem.setDetailedText(s.toString());
-                    ProblemRecodeFragment.getProblem().setDetailedText(s.toString());
+                    mProblem.setDescription(s.toString());
+                    ProblemRecodeFragment.getProblem().getProblem().setDescription(s.toString());
                 }
             }
 
@@ -73,8 +74,8 @@ public class ProblemDetailedInfoFragment extends Fragment {
     private void initPhotos(){
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL);
         mProblemPhotoList.setLayoutManager(layoutManager);
-        UUID uuid = ProblemRecodeFragment.getProblem().getUUID();
-        mAdapter = new ProblemPhotosAdapter(getActivity(),ProblemDetailedInfoFragment.this,uuid);
+        String folder = ProblemRecodeFragment.getProblem().getProblem().getImagesFolderPath();
+        mAdapter = new JobPicsAdapter(ProblemDetailedInfoFragment.this,R.layout.problom_poto_item,folder);
         mProblemPhotoList.setAdapter(mAdapter);
     }
 
@@ -104,9 +105,7 @@ public class ProblemDetailedInfoFragment extends Fragment {
                 if(path!=null) {
                     mPhotosPath.add(path);
                 }
-                mAdapter.setPhotosPath(mPhotosPath);
-                mProblem.setPhotoPath(mPhotosPath);
-                ProblemRecodeFragment.getProblem().setPhotoPath(mPhotosPath);
+                mAdapter.refreshPath();
                 break;
         }
     }

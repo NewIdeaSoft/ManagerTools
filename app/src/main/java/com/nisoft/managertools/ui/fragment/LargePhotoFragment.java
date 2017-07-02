@@ -11,12 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nisoft.managertools.R;
-import com.nisoft.managertools.db.ProblemDbSchema.ProblemTable;
-import com.nisoft.managertools.entity.Problem;
-import com.nisoft.managertools.entity.ProblemLab;
+import com.nisoft.managertools.entity.problem.ProblemRecode;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by NewIdeaSoft on 2017/5/12.
@@ -24,12 +21,11 @@ import java.util.UUID;
 
 public class LargePhotoFragment extends DialogFragment {
     private static final String SELECTED_POSITION = "selected_position";
-    private Problem mProblem;
+    private ProblemRecode mProblem;
     private ArrayList<Fragment> mFragments;
 
-    public static LargePhotoFragment newInstance(UUID uuid,int positon){
+    public static LargePhotoFragment newInstance(int positon){
         Bundle args = new Bundle();
-        args.putSerializable(ProblemTable.Cols.UUID,uuid);
         args.putInt(SELECTED_POSITION,positon);
         LargePhotoFragment fragment = new LargePhotoFragment();
         fragment.setArguments(args);
@@ -43,13 +39,12 @@ public class LargePhotoFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_large_photo,container);
-        UUID uuid = (UUID) getArguments().getSerializable(ProblemTable.Cols.UUID);
-        Problem problem = ProblemLab.getProblemLab(getActivity()).getProblem(uuid);
-        ArrayList<String> photosPath = problem.getPhotoPath();
-        mFragments = new ArrayList<>();
-        for(int i = 0; i < photosPath.size(); i++) {
-            mFragments.add(PhotoFragment.newInstance(photosPath.get(i)));
-        }
+//        ProblemRecode problem = ProblemDataLab.getProblemDataLab(getActivity()).getProblem(uuid);
+//        ArrayList<String> photosPath = problem.getPhotoPath();
+//        mFragments = new ArrayList<>();
+//        for(int i = 0; i < photosPath.size(); i++) {
+//            mFragments.add(PhotoFragment.newInstance(photosPath.get(i)));
+//        }
         ViewPager pager = (ViewPager) view.findViewById(R.id.pager_large_photo);
         pager.setAdapter(new FragmentStatePagerAdapter(getChildFragmentManager()) {
             @Override

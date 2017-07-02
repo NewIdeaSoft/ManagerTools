@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nisoft.managertools.R;
-import com.nisoft.managertools.entity.Problem;
+import com.nisoft.managertools.entity.problem.ProblemRecode;
 
 import java.util.ArrayList;
 
@@ -17,9 +17,9 @@ import java.util.ArrayList;
  */
 
 public class AnotherListAdapter extends RecyclerView.Adapter<AnotherListAdapter.ProblemViewHolder> {
-    private ArrayList<Problem> mProblems;
+    private ArrayList<ProblemRecode> mProblems;
     private Context mContext;
-    public AnotherListAdapter(Context context,ArrayList<Problem> problems){
+    public AnotherListAdapter(Context context,ArrayList<ProblemRecode> problems){
         mContext = context;
         mProblems = problems;
     }
@@ -51,7 +51,7 @@ public class AnotherListAdapter extends RecyclerView.Adapter<AnotherListAdapter.
         }
     }
 
-    public void setProblems(ArrayList<Problem> mProblems) {
+    public void setProblems(ArrayList<ProblemRecode> mProblems) {
         this.mProblems = mProblems;
     }
 }
